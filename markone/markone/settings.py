@@ -11,21 +11,27 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+import sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
+# append apps-path, 方便导入
+sys.path.insert(0, BASE_DIR)
+sys.path.insert(1, os.path.join(BASE_DIR, "apps"))
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+# 不能直接将key写在settings文件中
 SECRET_KEY = 'oxva-%h%z%&ym&*bq2^73c)sc!ay9mu0mo%(d_yw!&7ga^=^)m'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["192.168.75.245"]
 
 
 # Application definition
@@ -37,6 +43,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'books',
+    'hindex',
+    'videos',
 ]
 
 MIDDLEWARE = [
@@ -75,8 +84,10 @@ WSGI_APPLICATION = 'markone.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'OPTIONS': {
+            'read_default_file': 'utils/dbs/my.cnf',
+        },
     }
 }
 
